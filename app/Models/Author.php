@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,11 +15,17 @@ class Author extends Model
 
     protected $fillable = [
         'name',
-        'occupation',
+        'occuption',
         'avatar',
         'slug',
     ];
-    
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
+    }
+
     public function new(): HasMany
     {
         return $this->hasMany(Article::class);
